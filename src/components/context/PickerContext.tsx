@@ -7,7 +7,7 @@ import { alphaNumericEmojiIndex } from '../../dataUtils/alphaNumericEmojiIndex';
 import { useDebouncedState } from '../../hooks/useDebouncedState';
 import { useDisallowedEmojis } from '../../hooks/useDisallowedEmojis';
 import { FilterDict } from '../../hooks/useFilter';
-import { useMarkInitialLoad } from '../../hooks/useInitialLoad';
+// import { useMarkInitialLoad } from '../../hooks/useInitialLoad';
 import { SkinTones } from '../../types/exposedTypes';
 
 export function PickerContextProvider({ children }: Props) {
@@ -29,9 +29,9 @@ export function PickerContextProvider({ children }: Props) {
   const activeCategoryState = useState<ActiveCategoryState>(null);
   const emojisThatFailedToLoadState = useState<Set<string>>(new Set());
   const emojiVariationPickerState = useState<DataEmoji | null>(null);
-  const [isPastInitialLoad, setIsPastInitialLoad] = useState(false);
+  const [isPastInitialLoad, _] = useState(true);
 
-  useMarkInitialLoad(setIsPastInitialLoad);
+  // useMarkInitialLoad(setIsPastInitialLoad);
 
   return (
     <PickerContext.Provider
