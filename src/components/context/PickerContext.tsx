@@ -7,7 +7,7 @@ import { alphaNumericEmojiIndex } from '../../dataUtils/alphaNumericEmojiIndex';
 import { useDebouncedState } from '../../hooks/useDebouncedState';
 import { useDisallowedEmojis } from '../../hooks/useDisallowedEmojis';
 import { FilterDict } from '../../hooks/useFilter';
-import { useMarkInitialLoad } from '../../hooks/useInitialLoad';
+// import { useMarkInitialLoad } from '../../hooks/useInitialLoad';
 import { SkinTones } from '../../types/exposedTypes';
 
 export function PickerContextProvider({ children }: Props) {
