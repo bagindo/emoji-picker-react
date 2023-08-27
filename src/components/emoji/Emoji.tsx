@@ -7,14 +7,15 @@ import {
   emojiByUnified,
   emojiHasVariations,
   emojiName,
-  emojiNames,
-  emojiUrlByUnified,
+  emojiNames
+  // emojiUrlByUnified
 } from '../../dataUtils/emojiSelectors';
 import { parseNativeEmoji } from '../../dataUtils/parseNativeEmoji';
 import { EmojiStyle } from '../../types/exposedTypes';
 import { Button } from '../atoms/Button';
 import { useEmojisThatFailedToLoadState } from '../context/PickerContext';
 import './Emoji.css';
+import './Sprites.css';
 
 type ClickableEmojiProps = Readonly<
   BaseProps & {
@@ -43,7 +44,7 @@ export function ClickableEmoji({
   showVariations = true,
   size,
   lazyLoad,
-  getEmojiUrl,
+  getEmojiUrl
 }: ClickableEmojiProps) {
   const hasVariations = emojiHasVariations(emoji);
 
@@ -53,7 +54,7 @@ export function ClickableEmoji({
         [ClassNames.hidden]: hidden,
         [ClassNames.hiddenOnSearch]: hiddenOnSearch,
         [ClassNames.visible]: !hidden && !hiddenOnSearch,
-        [ClassNames.emojiHasVariations]: hasVariations && showVariations,
+        [ClassNames.emojiHasVariations]: hasVariations && showVariations
       })}
       data-unified={unified}
       // @ts-ignore - let's ignore the fact this is not a real react ref, ok?
@@ -76,18 +77,18 @@ export function ViewOnlyEmoji({
   emoji,
   unified,
   emojiStyle,
-  size,
-  lazyLoad,
-  getEmojiUrl = emojiUrlByUnified,
-}: BaseProps) {
+  size
+}: // lazyLoad,
+// getEmojiUrl = emojiUrlByUnified
+BaseProps) {
   const style = {} as React.CSSProperties;
   if (size) {
     style.width = style.height = style.fontSize = `${size}px`;
   }
 
   const emojiToRender = emoji ? emoji : emojiByUnified(unified);
-  if(!emojiToRender) {
-    return null
+  if (!emojiToRender) {
+    return null;
   }
 
   return (
@@ -95,14 +96,15 @@ export function ViewOnlyEmoji({
       {emojiStyle === EmojiStyle.NATIVE ? (
         <NativeEmoji unified={unified} style={style} />
       ) : (
-        <EmojiImg
-          unified={unified}
-          style={style}
-          emoji={emojiToRender}
-          emojiStyle={emojiStyle}
-          lazyLoad={lazyLoad}
-          getEmojiUrl={getEmojiUrl}
-        />
+        <EmojiImgSprite unified={unified} style={style} />
+        // <EmojiImg
+        //   unified={unified}
+        //   style={style}
+        //   emoji={emojiToRender}
+        //   emojiStyle={emojiStyle}
+        //   lazyLoad={lazyLoad}
+        //   getEmojiUrl={getEmojiUrl}
+        // />
       )}
     </>
   );
@@ -110,7 +112,7 @@ export function ViewOnlyEmoji({
 
 function NativeEmoji({
   unified,
-  style,
+  style
 }: {
   unified: string;
   style: React.CSSProperties;
@@ -126,37 +128,59 @@ function NativeEmoji({
   );
 }
 
-function EmojiImg({
-  emoji,
+function EmojiImgSprite({
   unified,
-  emojiStyle,
-  style,
-  lazyLoad = false,
-  getEmojiUrl,
+  style
 }: {
-  emoji: DataEmoji;
   unified: string;
-  emojiStyle: EmojiStyle;
   style: React.CSSProperties;
-  lazyLoad?: boolean;
-  getEmojiUrl: GetEmojiUrl;
 }) {
   const [, setEmojisThatFailedToLoad] = useEmojisThatFailedToLoadState();
 
   return (
-    <img
-      src={getEmojiUrl(unified, emojiStyle)}
-      alt={emojiName(emoji)}
-      className={clsx(ClassNames.external, 'epr-emoji-img')}
-      loading={lazyLoad ? 'lazy' : 'eager'}
+    <div
+      className={clsx(ClassNames.external, `epr-emoji-img e${unified}`)}
       onError={onError}
       style={style}
     />
   );
 
   function onError() {
-    setEmojisThatFailedToLoad((prev) => new Set(prev).add(unified));
+    setEmojisThatFailedToLoad(prev => new Set(prev).add(unified));
   }
 }
+
+// function EmojiImg({
+//   emoji,
+//   unified,
+//   emojiStyle,
+//   style,
+//   lazyLoad = false,
+//   getEmojiUrl
+// }: {
+//   emoji: DataEmoji;
+//   unified: string;
+//   emojiStyle: EmojiStyle;
+//   style: React.CSSProperties;
+//   lazyLoad?: boolean;
+//   getEmojiUrl: GetEmojiUrl;
+// }) {
+//   const [, setEmojisThatFailedToLoad] = useEmojisThatFailedToLoadState();
+
+//   return (
+//     <img
+//       src={getEmojiUrl(unified, emojiStyle)}
+//       alt={emojiName(emoji)}
+//       className={clsx(ClassNames.external, 'epr-emoji-img')}
+//       loading={lazyLoad ? 'lazy' : 'eager'}
+//       onError={onError}
+//       style={style}
+//     />
+//   );
+
+//   function onError() {
+//     setEmojisThatFailedToLoad(prev => new Set(prev).add(unified));
+//   }
+// }
 
 export type GetEmojiUrl = (unified: string, style: EmojiStyle) => string;
