@@ -96,7 +96,18 @@ BaseProps) {
       {emojiStyle === EmojiStyle.NATIVE ? (
         <NativeEmoji unified={unified} style={style} />
       ) : (
-        <EmojiImgSprite unified={unified} style={style} />
+        <EmojiImgSprite
+          unified={unified}
+          style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            fontSize: `${size}px`,
+            [`.${unified}::after`]: {
+              maxWidth: `${size}px`,
+              maxHeight: `${size}px`
+            }
+          }}
+        />
         // <EmojiImg
         //   unified={unified}
         //   style={style}
