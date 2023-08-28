@@ -33,7 +33,7 @@
   padding: var(--epr-emoji-padding);
 }
 
-.EmojiPickerReact button.epr-emoji .epr-emoji-img::after {
+.epr-emoji-img::after {
   max-width: var(--epr-emoji-size);
   max-height: var(--epr-emoji-size);
 }
