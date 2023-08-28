@@ -73,6 +73,10 @@ export function ClickableEmoji({
   );
 }
 
+interface CustomCSS extends React.CSSProperties {
+  '--epr-emoji-size': string;
+}
+
 export function ViewOnlyEmoji({
   emoji,
   unified,
@@ -81,9 +85,10 @@ export function ViewOnlyEmoji({
 }: // lazyLoad,
 // getEmojiUrl = emojiUrlByUnified
 BaseProps) {
-  const style = {} as React.CSSProperties;
+  const style = {} as CustomCSS;
   if (size) {
     style.width = style.height = style.fontSize = `${size}px`;
+    style['--epr-emoji-size'] = `${size}px`;
   }
 
   const emojiToRender = emoji ? emoji : emojiByUnified(unified);
@@ -96,18 +101,7 @@ BaseProps) {
       {emojiStyle === EmojiStyle.NATIVE ? (
         <NativeEmoji unified={unified} style={style} />
       ) : (
-        <EmojiImgSprite
-          unified={unified}
-          style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            fontSize: `${size}px`,
-            [`.${unified}::after`]: {
-              maxWidth: `${size}px`,
-              maxHeight: `${size}px`
-            }
-          }}
-        />
+        <EmojiImgSprite unified={unified} style={style} />
         // <EmojiImg
         //   unified={unified}
         //   style={style}
