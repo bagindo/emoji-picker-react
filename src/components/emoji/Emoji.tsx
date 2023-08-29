@@ -41,11 +41,13 @@ export function ClickableEmoji({
   hidden,
   hiddenOnSearch,
   emojiStyle,
+  // @ts-ignore
   showVariations = true,
   size,
   lazyLoad,
   getEmojiUrl
 }: ClickableEmojiProps) {
+  // @ts-ignore
   const hasVariations = emojiHasVariations(emoji);
 
   return (
@@ -53,8 +55,8 @@ export function ClickableEmoji({
       className={clsx(ClassNames.emoji, {
         [ClassNames.hidden]: hidden,
         [ClassNames.hiddenOnSearch]: hiddenOnSearch,
-        [ClassNames.visible]: !hidden && !hiddenOnSearch,
-        [ClassNames.emojiHasVariations]: hasVariations && showVariations
+        [ClassNames.visible]: !hidden && !hiddenOnSearch
+        // [ClassNames.emojiHasVariations]: hasVariations && showVariations
       })}
       data-unified={unified}
       // @ts-ignore - let's ignore the fact this is not a real react ref, ok?
